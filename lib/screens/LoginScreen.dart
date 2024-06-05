@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_app/controllers/LoginController.dart';
+import 'package:task_app/utils/AppColors.dart';
+
+import '../utils/AppButton.dart';
+import '../utils/AppInputField.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -9,6 +13,43 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
         init: LoginController(),
-        builder: (splash) => Scaffold());
+        builder: (login) => Scaffold(
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(Get.height *0.03),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: Get.height * 0.1,),
+                      AppInputField(
+                        controller: login.emailController,
+                        hintText: "Username",
+                        errorText: login.errorText,
+                      ),
+                      SizedBox(height: Get.height * 0.02,),
+                      AppInputField(
+                        controller: login.passController,
+                        hintText: "Password",
+                        errorText: login.passError,
+                      ),
+                      SizedBox(height: Get.height * 0.03,),
+                      AppButton(
+                        isLoad: login.isLoad,
+                        onPress: () {
+                          if(login.validateText(context)) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            login.checkLogin();
+                          }
+                        },
+                        text: "Submit",
+                        btnColor: Colors.red,
+                        height: Get.height * 0.055,
+                        textColor: AppColors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ));
   }
 }

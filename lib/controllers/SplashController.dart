@@ -20,7 +20,7 @@ class SplashController extends GetxController {
     var token = box.read(AppText.authToken);
     update();
     Future.delayed(const Duration(seconds: 2), () {
-      Get.offAll(() => token == null ? const LoginScreen() : const Dashboard(),
+      Get.offAll(() => token == null ? const LoginScreen() :  Dashboard(),
           transition: Transition.leftToRight);
     });
   }
