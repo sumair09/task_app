@@ -4,25 +4,31 @@ import 'package:task_app/screens/Dashboard.dart';
 import 'package:task_app/screens/LoginScreen.dart';
 import 'package:task_app/utils/AppText.dart';
 
-class SplashController extends GetxController {
+class DashboardController extends GetxController {
 
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    changeScreen();
+    userName = box.read(AppText.userName);
+    update();
   }
 
   final box = GetStorage();
 
-  changeScreen() {
-    var token = box.read(AppText.authToken);
+  var userName;
+  var isLoad = false;
+
+  logout() {
+    isLoad = true;
+    box.erase();
     update();
     Future.delayed(const Duration(seconds: 2), () {
-      //check if token is null it will redirect to login otherwise it will go to dashboard
-      Get.offAll(() => token == null ? const LoginScreen() :  Dashboard(),
-          transition: Transition.leftToRight);
+      isLoad = false;
+      update();
+      Get.offAll(() => LoginScreen());
+
     });
   }
 
